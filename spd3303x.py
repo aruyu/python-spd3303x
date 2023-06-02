@@ -51,11 +51,11 @@ def control_device(device_status:str):
     if device_status == 'on':
       device_socket = SocketConnect()
       device_socket.sendall(b'OUTPUT CH3,ON\n')
-      device_socket.sendall(b'OUTPUT CH2,ON\nOUTPUT CH1,ON')
+      device_socket.sendall(b'OUTPUT CH2,ON\nOUTPUT CH1,ON\n')
     elif device_status == 'off':
       device_socket = SocketConnect()
-      device_socket.sendall(b'OUTPUT CH1,OFF\nOUTPUT CH2,OFF')
-      device_socket.sendall(b'OUTPUT CH3,OFF')
+      device_socket.sendall(b'OUTPUT CH1,OFF\nOUTPUT CH2,OFF\n')
+      device_socket.sendall(b'OUTPUT CH3,OFF\n')
 
   except:
     print("Failed to turn {0} for '{1}' device...".format(device_status.upper(), remote_ip))
