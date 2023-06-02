@@ -9,5 +9,6 @@ Remote control power for SPD3303X-E power supply
 # Installation
 
 ```bash
-make | sudo make install
+make
+sudo make install
 ```
