@@ -25,35 +25,35 @@ port = 5025 # the port number of the instrument service
 #Port 5025 is valid for the following:
 #SIGLENT SVA1000X series, SSA3000X Series, and SPD3303X/XE
 
-def SocketConnect():
+def connect_socket():
   try:
     #create an AF_INET, STREAM socket (TCP)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   except socket.error:
     print('Failed to create socket.')
     sys.exit();
 
   try:
     #Connect to remote server
-    s.connect((remote_ip , port))
+    sock.connect((remote_ip , port))
   except socket.error:
-    print('Failed to connect in ' + remote_ip)
+    print('Failed to connect in {0}'.format(remote_ip))
 
-  return s
+  return sock
 
-def SocketClose(Sock):
+def close_socket(sock):
   #close the socket
-  Sock.close()
+  sock.close()
   time.sleep(1)
 
 def control_device(device_status:str):
   try:
     if device_status == 'on':
-      device_socket = SocketConnect()
+      device_socket = connect_socket()
       device_socket.sendall(b'OUTPUT CH3,ON\n')
       device_socket.sendall(b'OUTPUT CH2,ON\nOUTPUT CH1,ON\n')
     elif device_status == 'off':
-      device_socket = SocketConnect()
+      device_socket = connect_socket()
       device_socket.sendall(b'OUTPUT CH1,OFF\nOUTPUT CH2,OFF\n')
       device_socket.sendall(b'OUTPUT CH3,OFF\n')
 
@@ -61,12 +61,12 @@ def control_device(device_status:str):
     print("Failed to turn {0} for '{1}' device...".format(device_status.upper(), remote_ip))
 
   else:
-    SocketClose(device_socket)
+    close_socket(device_socket)
     print("Successfully turn {0} for '{1}' device.".format(device_status.upper(), remote_ip))
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description='Control Power Supply (SPD3303X-E)')
-  parser.add_argument('-i', '--ip', required=False, default='192.168.0.51',
+  parser = argparse.ArgumentParser(description="Control Power Supply (SPD3303X-E)")
+  parser.add_argument('-i', '--ip', required=False, default="192.168.0.51",
                       help="An IP address for Power Supply which you want to control.\n \
                       Default IP address is '192.168.0.51'")
   parser.add_argument('status', metavar='status',choices=['on', 'off'],
