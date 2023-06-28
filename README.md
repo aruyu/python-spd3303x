@@ -1,6 +1,6 @@
-# remote_power
+# python-spd3303x
 
-Remote control power for SPD3303X-E power supply
+Remote power control for SPD3303X-E power supply
 
 # Dependency
 
