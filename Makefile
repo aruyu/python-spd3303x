@@ -1,4 +1,4 @@
-spd3303x: spd3303x.py
+all: spd3303x.py
 	~/.local/bin/pyinstaller --onefile spd3303x.py
 
 install:

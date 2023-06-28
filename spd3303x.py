@@ -13,6 +13,7 @@ import socket # for sockets
 import sys # for exit
 import time # for sleep
 import argparse
+from argparse import RawTextHelpFormatter
 #-----------------------------------------------------------------------------
 
 remote_ip = "192.168.0.51" # should match the instrument’s IP address
@@ -65,10 +66,13 @@ def control_device(device_status:str):
     print("Successfully turn {0} for '{1}' device.".format(device_status.upper(), remote_ip))
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description="Control Power Supply (SPD3303X-E)")
+  parser = argparse.ArgumentParser(description="Control Power Supply (SPD3303X-E)\n" +
+                                               "MIT License <https://github.com/aruyu/remote_power/blob/master/LICENSE/>\n" +
+                                               "Report or pull request any time. <https://github.com/aruyu/remote_power/>",
+                                   formatter_class=RawTextHelpFormatter)
   parser.add_argument('-i', '--ip', required=False, default="192.168.0.51",
-                      help="An IP address for Power Supply which you want to control.\n \
-                      Default IP address is '192.168.0.51'")
+                      help="An IP address for Power Supply which you want to control.\n" +
+                           "Default IP address is '192.168.0.51'")
   parser.add_argument('status', metavar='status',choices=['on', 'off'],
                       help="'on' to turn on Device, 'off' to turn off Device.")
   args = parser.parse_args()
