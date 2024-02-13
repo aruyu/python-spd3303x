@@ -1,4 +1,7 @@
-all: spd3303x.py
+all:
+	mkdir ./dist/ ; cp spd3303x.py ./dist/spd3303x
+
+binary: spd3303x.py
 	~/.local/bin/pyinstaller --onefile spd3303x.py
 
 install:

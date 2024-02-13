@@ -8,7 +8,16 @@ Remote power control for SPD3303X-E power supply
 
 # Installation
 
+> Install using source
+
 ```bash
 make
+sudo make install
+```
+
+> Install using pyinstaller
+
+```bash
+make binary
 sudo make install
 ```
