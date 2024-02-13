@@ -86,11 +86,11 @@ if __name__ == '__main__':
                                                "MIT License <https://github.com/aruyu/remote_power/blob/master/LICENSE/>\n" +
                                                "Report or pull request any time. <https://github.com/aruyu/remote_power/>",
                                    formatter_class=RawTextHelpFormatter)
-  parser.add_argument('-i', '--ip', required=False, default="192.168.0.51",
+  parser.add_argument('-i', '--ip', required=False, default="192.168.12.51",
                       help="An IP address for Power Supply which you want to control.\n" +
-                           "Default IP address is '192.168.0.51'")
+                           "Default IP address is '192.168.12.51'")
   parser.add_argument('-c', '--channel', choices=['1', '2', '3', 'all'], required=False, default="all",
-                      help="Specific channel '1', '2', '3', or 'all'.")
+                      help="Specify control channel '1', '2', '3', or 'all'.")
   parser.add_argument('status', metavar='status', choices=['on', 'off'],
                       help="'on' to turn on Device, 'off' to turn off Device.")
   args = parser.parse_args()
