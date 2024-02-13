@@ -11,4 +11,4 @@ uninstall:
 	rm /usr/bin/spd3303x
 
 clean:
-	rm -r build dist *.spec
+	rm -r build dist __pycache__ *.spec
