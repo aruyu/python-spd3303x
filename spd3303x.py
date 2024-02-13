@@ -47,23 +47,39 @@ def close_socket(sock):
   sock.close()
   time.sleep(1)
 
-def control_device(device_status:str):
+def control_device(status:str, channel:str):
   try:
-    if device_status == 'on':
-      device_socket = connect_socket()
-      device_socket.sendall(b'OUTPUT CH3,ON\n')
-      device_socket.sendall(b'OUTPUT CH2,ON\nOUTPUT CH1,ON\n')
-    elif device_status == 'off':
-      device_socket = connect_socket()
-      device_socket.sendall(b'OUTPUT CH1,OFF\nOUTPUT CH2,OFF\n')
-      device_socket.sendall(b'OUTPUT CH3,OFF\n')
+    device_socket = connect_socket()
+
+    if status == 'on':
+      if channel == 'all':
+        device_socket.sendall(b'OUTPUT CH3,ON\n')
+        device_socket.sendall(b'OUTPUT CH2,ON\nOUTPUT CH1,ON\n')
+      elif channel == '1':
+        device_socket.sendall(b'OUTPUT CH1,ON\n')
+      elif channel == '2':
+        device_socket.sendall(b'OUTPUT CH2,ON\n')
+      elif channel == '3':
+        device_socket.sendall(b'OUTPUT CH3,ON\n')
+
+    elif status == 'off':
+      if channel == 'all':
+        device_socket.sendall(b'OUTPUT CH1,OFF\nOUTPUT CH2,OFF\n')
+        device_socket.sendall(b'OUTPUT CH3,OFF\n')
+      elif channel == '1':
+        device_socket.sendall(b'OUTPUT CH1,OFF\n')
+      elif channel == '2':
+        device_socket.sendall(b'OUTPUT CH2,OFF\n')
+      elif channel == '3':
+        device_socket.sendall(b'OUTPUT CH3,OFF\n')
 
   except:
-    print("Failed to turn {0} for '{1}' device...".format(device_status.upper(), remote_ip))
+    close_socket(device_socket)
+    print("Failed to turn {0} {1} CH for '{2}' device...".format(status.upper(), channel, remote_ip))
 
   else:
     close_socket(device_socket)
-    print("Successfully turn {0} for '{1}' device.".format(device_status.upper(), remote_ip))
+    print("Successfully turn {0} {1} CH for '{2}' device.".format(status.upper(), channel, remote_ip))
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description="Control Power Supply (SPD3303X-E)\n" +
@@ -73,9 +89,11 @@ if __name__ == '__main__':
   parser.add_argument('-i', '--ip', required=False, default="192.168.0.51",
                       help="An IP address for Power Supply which you want to control.\n" +
                            "Default IP address is '192.168.0.51'")
-  parser.add_argument('status', metavar='status',choices=['on', 'off'],
+  parser.add_argument('-c', '--channel', choices=['1', '2', '3', 'all'], required=False, default="all",
+                      help="Specific channel '1', '2', '3', or 'all'.")
+  parser.add_argument('status', metavar='status', choices=['on', 'off'],
                       help="'on' to turn on Device, 'off' to turn off Device.")
   args = parser.parse_args()
 
   remote_ip = args.ip
-  control_device(args.status)
+  control_device(args.status, args.channel)
